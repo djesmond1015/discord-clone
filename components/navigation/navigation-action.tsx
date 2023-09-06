@@ -3,9 +3,10 @@
 import { Plus } from 'lucide-react';
 
 import { ActionTooltip } from '@/components/action-tooltip';
+import { useModal } from '@/hooks/use-modal-store';
 
 export const NavigationAction = () => {
-  // TODO: Add modal hook
+  const { onOpen } = useModal();
 
   return (
     <div>
@@ -15,7 +16,7 @@ export const NavigationAction = () => {
         label='Add a server'
       >
         <button
-          onClick={() => {}}
+          onClick={() => onOpen('createServer')}
           className='flex items-center group'
           type='button'
           aria-label='Add a server'

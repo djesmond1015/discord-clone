@@ -14,12 +14,12 @@ interface ActionTooltipProps {
   align?: 'start' | 'center' | 'end';
 }
 
-export const ActionTooltip: React.FC<ActionTooltipProps> = ({
+export const ActionTooltip = ({
   label,
   children,
   side,
   align,
-}) => {
+}: ActionTooltipProps) => {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={50}>

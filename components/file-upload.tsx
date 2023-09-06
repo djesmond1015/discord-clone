@@ -12,11 +12,7 @@ interface FileUploadProps {
   endpoint: 'messageFile' | 'serverImage';
 }
 
-export const FileUpload: React.FC<FileUploadProps> = ({
-  onChange,
-  value,
-  endpoint,
-}) => {
+export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   const fileType = value?.split('.').pop();
 
   if (value && fileType !== 'pdf') {

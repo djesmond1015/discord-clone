@@ -12,11 +12,7 @@ interface NavigationItemProps {
   name: string;
 }
 
-export const NavigationItem: React.FC<NavigationItemProps> = ({
-  id,
-  imageUrl,
-  name,
-}) => {
+export const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
   const params = useParams();
   const router = useRouter();
 

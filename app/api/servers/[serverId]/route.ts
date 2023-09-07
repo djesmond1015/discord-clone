@@ -18,11 +18,11 @@ export async function PATCH(
     }
 
     if (!name) {
-      return new NextResponse('Name is required', { status: 404 });
+      return new NextResponse('Name is required', { status: 400 });
     }
 
     if (!imageUrl) {
-      return new NextResponse('Image is required', { status: 404 });
+      return new NextResponse('Image is required', { status: 400 });
     }
 
     const server = await db.server.update({

@@ -1,11 +1,12 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Channel, ChannelType, MemberRole, Server } from '@prisma/client';
 import { Edit, Hash, Lock, Mic, Trash, Video } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { ActionTooltip } from '@/components/action-tooltip';
+import { ModalType, useModal } from '@/hooks/use-modal-store';
 
 interface ServerChannelProps {
   channel: Channel;
@@ -24,9 +25,16 @@ export const ServerChannel = ({
   server,
   role,
 }: ServerChannelProps) => {
+  const { onOpen } = useModal();
   const params = useParams();
+  const router = useRouter();
 
   const Icon = iconMap[channel.type];
+
+  const onAction = (e: React.MouseEvent, action: ModalType) => {
+    e.stopPropagation();
+    onOpen(action, { server, channel });
+  };
 
   return (
     <button
@@ -46,10 +54,16 @@ export const ServerChannel = ({
       {channel.name !== 'general' && role !== MemberRole.GUEST && (
         <div className='flex items-center ml-auto gap-x-2'>
           <ActionTooltip label='Edit'>
-            <Edit className='hidden w-4 h-4 transition group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300' />
+            <Edit
+              onClick={(e) => onAction(e, 'editChannel')}
+              className='hidden w-4 h-4 transition group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300'
+            />
           </ActionTooltip>
           <ActionTooltip label='Delete'>
-            <Trash className='hidden w-4 h-4 transition group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300' />
+            <Trash
+              onClick={(e) => onAction(e, 'deleteChannel')}
+              className='hidden w-4 h-4 transition group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300'
+            />
           </ActionTooltip>
         </div>
       )}

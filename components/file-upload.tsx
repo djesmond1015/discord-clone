@@ -35,6 +35,31 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
     );
   }
 
+  if (value && fileType === 'pdf') {
+    return (
+      <div className='relative flex items-center p-2 mt-2 rounded-md bg-background/10'>
+        <FileIcon className='w-10 h-10 fill-indigo-200 stroke-indigo-400' />
+        <a
+          href={value}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='ml-2 text-sm text-indigo-500 dark:text-indigo-400 hover:underline'
+        >
+          {value.split('').length > 50
+            ? `${value.slice(0, 50)}...${fileType}`
+            : value}
+        </a>
+        <button
+          onClick={() => onChange('')}
+          className='absolute p-1 text-white rounded-full shadow-sm bg-rose-500 -top-2 -right-2'
+          type='button'
+        >
+          <X className='w-4 h-4' />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <UploadDropzone
       endpoint={endpoint}

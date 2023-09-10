@@ -11,6 +11,7 @@ import { useModal } from '@/hooks/use-modal-store';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
+import { EmojiPicker } from '../emoji-picker';
 
 interface ChatInputProps {
   apiUrl: string;
@@ -77,7 +78,11 @@ export const ChatInput = ({ apiUrl, name, type, query }: ChatInputProps) => {
                     {...field}
                   />
                   <div className='absolute top-7 right-8'>
-                    <Smile className='text-[#313338] dark:text-white' />
+                    <EmojiPicker
+                      onChange={(emoji: string) => {
+                        field.onChange(`${field.value} ${emoji}`);
+                      }}
+                    />
                   </div>
                 </div>
               </FormControl>

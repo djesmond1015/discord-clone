@@ -24,8 +24,6 @@ export const ServerSection = ({
 }: ServerSectionProps) => {
   const { onOpen } = useModal();
 
-  console.log(role);
-
   return (
     <div className='flex items-center justify-between py-2'>
       <p className='text-xs font-semibold uppercase text-zinc-500 dark:text-zinc-400'>

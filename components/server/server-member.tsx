@@ -16,7 +16,7 @@ const roleMap = {
   [MemberRole.MODERATOR]: (
     <ShieldCheck className='w-4 h-4 ml-2 text-indigo-500' />
   ),
-  [MemberRole.ADMIN]: <ShieldAlert className='w-4 h-4 ml-2 text-indigo-500' />,
+  [MemberRole.ADMIN]: <ShieldAlert className='w-4 h-4 ml-2 text-rose-500' />,
 };
 
 export const ServerMember = ({ member, server }: ServerMemberProps) => {

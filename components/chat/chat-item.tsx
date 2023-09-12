@@ -61,6 +61,14 @@ export const ChatItem = ({
   const params = useParams();
   const router = useRouter();
 
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) {
+      return null;
+    }
+
+    router.push(`/servers/{params.serverId}/conversations/${member.id}`);
+  };
+
   useEffect(() => {
     const handleKeyDown = (event: any) => {
       if (event.key === 'Escape' || event.keyCode === 27) {
@@ -119,13 +127,19 @@ export const ChatItem = ({
   return (
     <div className='relative flex items-center w-full p-4 transition group hover:bg-black/5'>
       <div className='flex items-start w-full group gap-x-2'>
-        <div className='transition cursor-pointer hover:drop-shadow-md'>
+        <div
+          className='transition cursor-pointer hover:drop-shadow-md'
+          onClick={onMemberClick}
+        >
           <UserAvatar src={member.profile.imageUrl} />
         </div>
         <div className='flex flex-col w-full'>
           <div className='flex items-center gap-x-2'>
             <div className='flex items-center'>
-              <p className='text-sm font-semibold cursor-pointer hover:underline'>
+              <p
+                className='text-sm font-semibold cursor-pointer hover:underline'
+                onClick={onMemberClick}
+              >
                 {member.profile.name}
               </p>
               <ActionTooltip label={member.role}>
@@ -192,7 +206,7 @@ export const ChatItem = ({
                         <div className='relative w-full'>
                           <Input
                             disabled={isLoading}
-                            className='p-2 border-0 border-none bg-zinc-200/90 dark:bg-zinc-700 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200'
+                            className='p-2 mb-2 border-0 border-none bg-zinc-200/90 dark:bg-zinc-700 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200'
                             placeholder='Edited message'
                             {...field}
                           />
@@ -228,7 +242,12 @@ export const ChatItem = ({
           )}
           <ActionTooltip label='Delete'>
             <Trash
-              // onClick={() => setIsEditing(true)}
+              onClick={() =>
+                onOpen('deleteMessage', {
+                  apiUrl: `${socketUrl}/${id}`,
+                  query: socketQuery,
+                })
+              }
               className='w-4 h-4 ml-auto transition cursor-pointer text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300'
             />
           </ActionTooltip>

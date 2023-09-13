@@ -1,7 +1,7 @@
 // GET
 
 import { NextResponse } from 'next/server';
-import { Message } from '@prisma/client';
+import { DirectMessage } from '@prisma/client';
 
 import { CurrentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
@@ -14,27 +14,27 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
 
     const cursor = searchParams.get('cursor');
-    const channelId = searchParams.get('channelId');
+    const conversationId = searchParams.get('conversationId');
 
     if (!profile) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    if (!channelId) {
-      return new NextResponse('Profile ID is required', { status: 400 });
+    if (!conversationId) {
+      return new NextResponse('Conversation ID is required', { status: 400 });
     }
 
-    let messages: Message[] = [];
+    let messages: DirectMessage[] = [];
 
     if (cursor) {
-      messages = await db.message.findMany({
+      messages = await db.directMessage.findMany({
         take: MESSAGES_BATCH,
         skip: 1,
         cursor: {
           id: cursor,
         },
         where: {
-          channelId,
+          conversationId,
         },
         include: {
           member: {
@@ -48,11 +48,10 @@ export async function GET(req: Request) {
         },
       });
     } else {
-      messages = await db.message.findMany({
+      messages = await db.directMessage.findMany({
         take: MESSAGES_BATCH,
-        skip: 1,
         where: {
-          channelId,
+          conversationId,
         },
         include: {
           member: {
@@ -70,7 +69,7 @@ export async function GET(req: Request) {
     let nextCursor = null;
 
     if (messages.length === MESSAGES_BATCH) {
-      nextCursor = messages[messages.length - 1].id;
+      nextCursor = messages[MESSAGES_BATCH - 1].id;
     }
 
     return NextResponse.json({
@@ -78,7 +77,7 @@ export async function GET(req: Request) {
       nextCursor,
     });
   } catch (error) {
-    console.log('[MESSAGES_GET]', error);
+    console.log('[DIRECT_MESSAGES_GET]', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

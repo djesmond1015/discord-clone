@@ -1,7 +1,8 @@
 import { Menu } from 'lucide-react';
 
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { ModifySheetContent } from '@/components/ui/modify/sheet-content-modify';
 import { NavigationSidebar } from '@/components/navigation/navigation-sidebar';
 import { ServerSidebar } from '@/components/server/server-sidebar';
 
@@ -21,15 +22,16 @@ export const MobileToggle = ({ serverId }: MobileToggleProps) => {
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent
+      <ModifySheetContent
         side='left'
         className='flex gap-0 p-0'
+        close='hidden'
       >
         <div className='w-[72px]'>
           <NavigationSidebar />
         </div>
         <ServerSidebar serverId={serverId} />
-      </SheetContent>
+      </ModifySheetContent>
     </Sheet>
   );
 };

@@ -1,0 +1,61 @@
+# Server
+
+/servers
+1. POST - Create a new server.
+
+/servers/${serverId}
+1. PATCH - Update the server properties such as name and image Url.
+2. DELETE - Delete the server.
+
+/servers/${serverId}/leave
+1. PATCH - Update the server to remove the member that want to leave. The members leave themselves from the server. [MEMBER_ID_DELETE]
+
+/servers/${serverId}/invite-code
+1. PATCH - Update the server to add the member that want to join. The members join the server through the invite link. [MEMBERS_POST]
+
+
+
+# Member
+
+/members/${memberId}
+1. PATCH - Update the member properties such as role in the server.
+2. DELETE - Delete the member from the server. The Admin or Owner of the server can delete the member.
+
+
+
+# Channel
+
+/channels
+1. POST - Create a new channel.
+
+/channels/${channelId}
+1. PATCH - Update the channel properties such as name and type.
+2. DELETE - Delete the channel.
+
+
+
+# Message
+
+/socket/messages
+1. POST - Create a new message. Once the message is created it will be added into the use-chat-query hook (Tanstack Query) through use-chat-socket hook (connect with websocket).
+
+/messages
+1. GET - Get all messages based on the cursor for infinity loading.
+
+/socket/direct-messages/${messageId}
+1. PATCH - Update the message properties such as content. Once the message is updated it will also be updated in the use-chat-query hook (Tanstack Query) through use-chat-socket hook (connect with websocket). 
+2. DELETE - Soft-delete the message. Once the message is soft-deleted it will also be updated in the use-chat-query hook (Tanstack Query) through use-chat-socket hook (connect with websocket).
+
+
+
+# Direct Message
+
+/socket/direct-messages
+1. POST - Create a new direct message. Once the direct message is created it will be added into the use-chat-query hook (Tanstack Query) through use-chat-socket hook (connect with websocket).
+
+/direct-messages
+1.GET - Get all direct messages based on the cursor for infinity loading.
+
+/socket/direct-messages/${directMessageId}
+1. PATCH - Update the direct message properties such as content. Once the direct message is updated it will also be updated in the use-chat-query hook (Tanstack Query) through use-chat-socket hook (connect with websocket). 
+2. DELETE - Soft-delete the direct message. Once the direct message is soft-deleted it will also be updated in the use-chat-query hook (Tanstack Query) through use-chat-socket hook (connect with websocket).

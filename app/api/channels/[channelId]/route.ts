@@ -38,6 +38,20 @@ export async function PATCH(
       return new NextResponse('Channel name is required', { status: 400 });
     }
 
+    const existingChannel = await db.channel.findFirst({
+      where: {
+        serverId,
+        name,
+        NOT: {
+          id: params.channelId,
+        },
+      },
+    });
+
+    if (existingChannel) {
+      return new NextResponse('Channel name already exists', { status: 409 });
+    }
+
     const server = await db.server.update({
       where: {
         id: serverId,

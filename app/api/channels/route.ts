@@ -29,6 +29,21 @@ export async function POST(req: Request) {
       });
     }
 
+    const existingChannel = await db.server.findFirst({
+      where: {
+        id: serverId,
+        channels: {
+          some: {
+            name,
+          },
+        },
+      },
+    });
+
+    if (existingChannel) {
+      return new NextResponse('Channel name already exists', { status: 409 });
+    }
+
     const server = await db.server.update({
       where: {
         id: serverId,

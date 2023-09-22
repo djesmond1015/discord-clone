@@ -87,7 +87,12 @@ export const CreateChannelModal = () => {
       form.reset();
       router.refresh();
       onClose();
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        form.setError('name', {
+          message: 'Channel name already exists.',
+        });
+      }
       console.log(error);
     }
   };

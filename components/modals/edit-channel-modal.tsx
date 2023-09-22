@@ -39,7 +39,7 @@ const formSchema = z.object({
   name: z
     .string()
     .min(1, {
-      message: 'Server name is required.',
+      message: 'Channel name is required.',
     })
     .refine((name) => name !== 'general', {
       message: 'Channel name cannot be "general".',
@@ -50,7 +50,6 @@ const formSchema = z.object({
 export const EditChannelModal = () => {
   const { isOpen, type, onClose, data } = useModal();
   const router = useRouter();
-  const params = useParams();
 
   const isModalOpen = isOpen && type === 'editChannel';
   const { channel, server } = data;
@@ -86,7 +85,12 @@ export const EditChannelModal = () => {
       form.reset();
       router.refresh();
       onClose();
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response?.status) {
+        form.setError('name', {
+          message: 'Channel name already exists.',
+        });
+      }
       console.log(error);
     }
   };
